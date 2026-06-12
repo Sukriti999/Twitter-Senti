@@ -2,13 +2,13 @@ import streamlit as st
 from nltk.sentiment import SentimentIntensityAnalyzer
 import nltk
 
-# Download VADER lexicon
+# Download VADER Lexicon
 nltk.download('vader_lexicon')
 
-# Initialize sentiment analyzer
+# Initialize Sentiment Analyzer
 sia = SentimentIntensityAnalyzer()
 
-# Page config
+# Page Configuration
 st.set_page_config(
     page_title="Twitter Sentiment Analysis",
     page_icon="🐦",
@@ -21,7 +21,7 @@ st.markdown("""
 
 /* Background Image */
 .stApp {
-    background-image: url("https://images.unsplash.com/photo-1611926653458-09294b3142bf");
+    background-image: url("https://images.unsplash.com/photo-1563986768609-322da13575f3?q=80&w=2070");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -30,38 +30,54 @@ st.markdown("""
 
 /* Glass Effect Container */
 .block-container {
-    background-color: rgba(0, 0, 0, 0.75);
+    background: rgba(0, 0, 0, 0.80);
+    backdrop-filter: blur(15px);
     padding: 2rem;
-    border-radius: 20px;
+    border-radius: 25px;
+    margin-top: 20px;
 }
 
-/* White Heading */
+/* Title */
 h1 {
     color: white !important;
     text-align: center;
+    font-size: 3rem;
     text-shadow: 2px 2px 10px black;
 }
 
-/* White Text */
+/* Text */
 h2, h3, p, label {
     color: white !important;
 }
 
 /* Text Area */
 .stTextArea textarea {
-    background-color: rgba(255,255,255,0.1);
-    color: white;
-    border-radius: 10px;
+    background-color: white !important;
+    color: black !important;
+    border-radius: 15px !important;
+    border: 2px solid #1DA1F2 !important;
+    font-size: 18px !important;
+    font-weight: 500;
+}
+
+.stTextArea textarea::placeholder {
+    color: gray !important;
 }
 
 /* Button */
 .stButton button {
+    width: 100%;
     background-color: #1DA1F2;
     color: white;
-    border-radius: 10px;
-    border: none;
+    font-size: 18px;
     font-weight: bold;
-    width: 100%;
+    border-radius: 12px;
+    border: none;
+    padding: 12px;
+}
+
+.stButton button:hover {
+    background-color: #0d8de1;
 }
 
 /* Animated Twitter Logo */
@@ -71,27 +87,20 @@ h2, h3, p, label {
     right: 20px;
     width: 80px;
     z-index: 999;
-    animation: float 4s ease-in-out infinite,
-               rotate 8s linear infinite;
+    animation: float 3s ease-in-out infinite;
 }
 
 /* Floating Animation */
 @keyframes float {
-    0% { transform: translateY(0px); }
-    50% { transform: translateY(20px); }
-    100% { transform: translateY(0px); }
-}
-
-/* Rotation Animation */
-@keyframes rotate {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
+    0% {transform: translateY(0px);}
+    50% {transform: translateY(15px);}
+    100% {transform: translateY(0px);}
 }
 
 </style>
 """, unsafe_allow_html=True)
 
-# Animated Twitter Logo
+# Twitter Logo
 st.markdown("""
 <img class="twitter-logo"
 src="https://cdn-icons-png.flaticon.com/512/733/733579.png">
@@ -100,19 +109,25 @@ src="https://cdn-icons-png.flaticon.com/512/733/733579.png">
 # Title
 st.title("🐦 Twitter Sentiment Analysis")
 
-st.write("Enter a tweet and get instant sentiment analysis results.")
+st.markdown(
+    "<h3 style='text-align:center;'>Analyze Tweet Sentiment Instantly</h3>",
+    unsafe_allow_html=True
+)
 
-# Input
-tweet = st.text_area("Paste Tweet Here")
+# Input Box
+tweet = st.text_area(
+    "Enter Tweet",
+    placeholder="Type or paste a tweet here..."
+)
 
 # Analyze Button
-if st.button("Analyze Sentiment"):
+if st.button("🔍 Analyze Sentiment"):
 
-    if tweet:
+    if tweet.strip():
 
         score = sia.polarity_scores(tweet)
 
-        st.subheader("Sentiment Score")
+        st.subheader("📊 Sentiment Score")
         st.json(score)
 
         compound = score["compound"]
@@ -127,4 +142,4 @@ if st.button("Analyze Sentiment"):
             st.info("😐 Neutral Tweet")
 
     else:
-        st.warning("Please enter a tweet first!")
+        st.warning("⚠ Please enter a tweet first!")
